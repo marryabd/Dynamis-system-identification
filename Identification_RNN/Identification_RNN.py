@@ -6,7 +6,7 @@ from keras.layers import Dense, Activation, Dropout, Input, LSTM, BatchNormaliza
 from keras.optimizers import Adam
 from keras import backend as K
 from keras.callbacks import ModelCheckpoint
-from id_utils import data_reshape
+from id_utils import data_reshape, plot_result
 
 # Load training data
 df = pd.read_csv("generated_data_train.csv")
@@ -101,7 +101,7 @@ callbacks_list = [checkpoint]
 model.fit(x_data, y_data, validation_split=0.1, epochs=100, callbacks=callbacks_list, verbose=1)
 
 # Performance on train data
-plot_result(Input_train, Target_train, time, num_lookback, model, num_lstm_in, num_lstm_out)
+plot_result(Input_train, Target_train, time, num_lookback, model)
 
 # Load test data
 df = pd.read_csv("generated_data_test.csv")
@@ -111,4 +111,4 @@ Input_test = np.reshape(Input_test, (-1,2))
 Target_test = data[-1,:4000]
 Target_test = np.reshape(Target_test, (-1,1))
 
-plot_result(Input_test, Target_test, time[:4000], num_lookback, model, num_lstm_in, num_lstm_out)
+plot_result(Input_test, Target_test, time[:4000], num_lookback, model)
